@@ -1,5 +1,6 @@
 package com.sarawanak.todobe.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "todo_user")
 @Data
+@JsonIgnoreProperties({"id", "password"})
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
