@@ -1,0 +1,16 @@
+CREATE TABLE todo_user(
+	id SERIAL NOT NULL PRIMARY KEY,
+	name VARCHAR(32) NOT NULL,
+	username VARCHAR(16) NOT NULL UNIQUE,
+	password VARCHAR(32) NOT NULL
+);
+
+CREATE TABLE task(
+	id SERIAL NOT NULL PRIMARY KEY,
+	description VARCHAR(50) NOT NULL,
+	priority INT,
+	status INT NOT NULL,
+	scheduled_on DATE NOT NULL,
+	user_id INT,
+	FOREIGN KEY (user_id) REFERENCES todo_user(id)
+);
