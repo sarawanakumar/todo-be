@@ -33,7 +33,7 @@ dependencies {
 	}
 	// https://mvnrepository.com/artifact/org.postgresql/postgresql
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
-
+	compile('javax.xml.bind:jaxb-api:2.3.0')
 }
 
 test {
