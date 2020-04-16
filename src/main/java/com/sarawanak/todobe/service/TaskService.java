@@ -3,13 +3,12 @@ package com.sarawanak.todobe.service;
 import com.sarawanak.todobe.helper.PriorityHelper;
 import com.sarawanak.todobe.helper.StatusHelper;
 import com.sarawanak.todobe.model.Task;
-import com.sarawanak.todobe.repository.CustomTaskRepositoryImpl;
 import com.sarawanak.todobe.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -20,7 +19,12 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public List<Task> getTodosByUserId(Integer userId, String priority, String status) {
+    public Optional<Task> getTodoById(String id) {
+        Integer taskId = Integer.parseInt(id);
+        return taskRepository.findById(taskId);
+    }
+
+    public List<Task> getTodosMatching(Integer userId, String priority, String status) {
         Integer priorityCode = PriorityHelper.getCodeForPriority(priority);
         Integer statusCode = StatusHelper.getCodeForStatus(status);
 
