@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "description": "Project Assignment",
+    "priority": "Medium",
+    "status": "Pending",
+    "completionDate": "25-Apr-2020"
+  },
+  {
+    "id": 2,
+    "description": "Project Assignment - Spring Boot",
+    "priority": "Low",
+    "status": "Pending",
+    "completionDate": "24-Apr-2020"
+  },
+  {
+    "id": 3,
+    "description": "Movie of the Week",
+    "priority": "High",
+    "status": "Pending",
+    "completionDate": "18-Apr-2020"
+  },
+  {
+    "id": 4,
+    "description": "Weekly Workout",
+    "priority": "High",
+    "status": "Pending",
+    "completionDate": "14-Apr-2020"
+  }
+]

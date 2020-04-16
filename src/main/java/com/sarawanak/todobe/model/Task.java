@@ -9,6 +9,7 @@ import com.sarawanak.todobe.serdes.PriorityDeserializer;
 import com.sarawanak.todobe.serdes.PrioritySerializer;
 import com.sarawanak.todobe.serdes.StatusDeserializer;
 import com.sarawanak.todobe.serdes.StatusSerializer;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -22,6 +23,7 @@ import java.util.Date;
 @Entity
 @Table(name = "task")
 @Data
+@Builder
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
