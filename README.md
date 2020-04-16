@@ -6,7 +6,7 @@
 
 ### GET /hello => "hello"
 
-### GET /todo => List<Todo>
+### GET /todo => Listof`<Todo>`
 
 ### GET /todo/{id} => Optional<Todo>
 
