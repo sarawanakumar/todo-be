@@ -19,4 +19,25 @@ public class PriorityHelper {
                 return -1;
         }
     }
+
+    public static String getPriorityForCode(Integer code) {
+        String priority = "";
+        if (code == null) {
+            priority = "None";
+        }
+        switch (code) {
+            case 1:
+                priority = "High";
+                break;
+            case 5:
+                priority = "Medium";
+                break;
+            case 10:
+                priority = "Low";
+                break;
+            default:
+                priority = "None";
+        }
+        return priority;
+    }
 }

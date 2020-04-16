@@ -45,9 +45,8 @@ public class CustomTaskRepositoryImpl implements CustomTaskRepository {
 
         query.select(taskRoot)
             .where(criteriaBuilder
-                .and(predicates
-                    .toArray(
-                        new Predicate[predicates.size()]
+                .and(predicates.toArray(
+                    new Predicate[predicates.size()]
                     )
                 )
             );

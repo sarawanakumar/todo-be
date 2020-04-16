@@ -17,4 +17,22 @@ public class StatusHelper {
                 return -1;
         }
     }
+
+    public static String getStatusForCode(Integer code) {
+        String status = "";
+        if (code == null) {
+            status = "Unknown";
+        }
+        switch (code) {
+            case 1:
+                status = "Completed";
+                break;
+            case 0:
+                status = "Pending";
+                break;
+            default:
+                status = "Unknown";
+        }
+        return status;
+    }
 }
