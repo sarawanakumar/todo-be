@@ -6,10 +6,13 @@
 
 
 **Test Service**
+```
 GET /hello => "hello"
+```
 
 **Create Todo**
-```POST /todo
+```
+POST /todo
     {   
         "description": "Dummy Task",
         "priority": "High",
@@ -20,7 +23,8 @@ GET /hello => "hello"
 
 ---
 **Update Todo**
-```PUT /todo
+```
+PUT /todo
     {
         "description": "Real Task",
         "priority": "High",
@@ -33,8 +37,7 @@ GET /hello => "hello"
  **Delete Todo**
  ```
  DELETE /todo/{id}
- 
- Response 200
+
  ```
  
  ---
