@@ -22,17 +22,12 @@ public class TodoController {
         return "hello";
     }
 
-    @GetMapping("/todo")
-    public List<Task> getAllTodos() {
-        return taskService.getAllTodos();
-    }
-
     @GetMapping("/todo/{id}")
     public Optional<Task> getTodo(@PathVariable String id) {
         return taskService.getTodoById(id);
     }
 
-    @GetMapping(value = "/todo/filter")
+    @GetMapping(value = "/todo")
     public List<Task> getTodosFor(
         @RequestParam(name = "user_id", required = false) Integer userId,
         @RequestParam(required = false) String priority,

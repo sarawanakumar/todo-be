@@ -41,7 +41,7 @@ class TaskServiceTest {
 
         assertEquals(stubs.size(), result.size());
         assertEquals(result.get(0).getId(), 2);
-        assertEquals(result.get(1).getId(), 3);
+        assertEquals(result.get(1).getId(), 4);
     }
 
     @Test
@@ -77,11 +77,11 @@ class TaskServiceTest {
 
     private List<Task> getStubTasks() {
         List<Task> tasks = new ArrayList<>();
-        Task task1 = Task.builder().id(2).priority(5).description("User Task 1").status(0).completionDate(new Date()).userId(1).build();
+        Task t1 = new Task(2, "User Task 1", 5, 0, new Date(),1);
+        Task t2 = new Task(4, "User Task Hello", 10, 1, new Date(),5);
 
-        Task task2 = Task.builder().id(3).priority(1).status(1).description("Hello Task").completionDate(new Date()).userId(5).build();
-        tasks.add(task1);
-        tasks.add(task2);
+        tasks.add(t1);
+        tasks.add(t2);
 
         return tasks;
     }

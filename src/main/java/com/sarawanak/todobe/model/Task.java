@@ -23,8 +23,19 @@ import java.util.Date;
 @Entity
 @Table(name = "task")
 @Data
-@Builder
 public class Task {
+
+    public Task(){}
+
+    public Task(int id, String description, int priority, int status, Date completionDate, int userId) {
+        this.id = id;
+        this.description = description;
+        this.priority = priority;
+        this.status = status;
+        this.completionDate = completionDate;
+        this.userId = userId;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
