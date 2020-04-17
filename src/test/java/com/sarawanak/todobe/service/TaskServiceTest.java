@@ -1,6 +1,7 @@
 package com.sarawanak.todobe.service;
 
 import com.sarawanak.todobe.model.Task;
+import com.sarawanak.todobe.model.User;
 import com.sarawanak.todobe.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,9 +15,15 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.atMostOnce;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class TaskServiceTest {
@@ -67,18 +74,73 @@ class TaskServiceTest {
     @Test
     void shouldGetTodosMatchingIdPriorityAndStatus() {
         List<Task> stubTasks = getStubTasks();
-        when(taskRepository.findByCriteria(anyInt(), anyInt(), anyInt()))
-            .thenReturn(stubTasks);
+        when(taskRepository.findByCriteria(anyInt(), anyInt(), anyInt())).thenReturn(stubTasks);
 
-        List<Task> res = service.getTodosMatching(1,"Medium", "Completed");
+        List<Task> res = service.getTodosMatching(1, "Medium", "Completed");
 
         assertEquals(res.size(), stubTasks.size());
     }
 
+    @Test
+    void shouldCreateTodoItemWithGivenObject() {
+        Task task = getStubTasks().get(0);
+        when(taskRepository.save(task)).thenReturn(task);
+
+        Task res = service.createTask(task);
+
+        verify(taskRepository, times(1)).save(task);
+
+        assertEquals(task.getId(), res.getId());
+    }
+
+    @Test
+    void shouldUpdateTodoItemWithGivenObject() {
+        Task task = getStubTasks().get(0);
+        Optional<Task> oldTask = Optional.of(getStubTasks().get(1));
+        Integer taskId = task.getId();
+
+        when(taskRepository.findById(taskId)).thenReturn(oldTask);
+        when(taskRepository.save(task)).thenReturn(task);
+
+        Task res = service.updateTask(task, taskId);
+
+        verify(taskRepository, times(1)).save(task);
+        verify(taskRepository, times(1)).findById(taskId);
+
+        assertEquals(res.getId(), task.getId());
+        assertEquals(res.getDescription(), task.getDescription());
+    }
+
+    @Test
+    void shouldCreateNewTaskWhenFindByIdFails() {
+        Task task = getStubTasks().get(0);
+        Task oldTask = getStubTasks().get(1);
+        Integer taskId = task.getId();
+
+        when(taskRepository.findById(taskId)).thenReturn(Optional.empty());
+        when(taskRepository.save(task)).thenReturn(task);
+
+        Task res = service.updateTask(task, taskId);
+
+        verify(taskRepository, times(1)).save(task);
+        verify(taskRepository, times(1)).findById(taskId);
+        assertEquals(res.getDescription(), task.getDescription());
+    }
+
+    @Test
+    void shouldDeleteTaskWithId() {
+        int taskId = 6;
+
+        service.deleteTodo(taskId);
+
+        verify(taskRepository, times(1)).deleteById(taskId);
+    }
+
     private List<Task> getStubTasks() {
         List<Task> tasks = new ArrayList<>();
-        Task t1 = new Task(2, "User Task 1", 5, 0, new Date(),1);
-        Task t2 = new Task(4, "User Task Hello", 10, 1, new Date(),5);
+        User user = new User(1, "sarka", "passs", "full name");
+        Task t1 = new Task(2, "User Task 1", 5, 0, new Date(), user);
+        Task t2 = new Task(4, "User Task Hello", 10, 1, new Date(), user);
 
         tasks.add(t1);
         tasks.add(t2);

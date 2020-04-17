@@ -15,6 +15,15 @@ import javax.persistence.Table;
 @Data
 @JsonIgnoreProperties({"id", "password"})
 public class User {
+    public User(){}
+
+    public User(int id, String username, String password, String name) {
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.password = password;
+    }
+
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 

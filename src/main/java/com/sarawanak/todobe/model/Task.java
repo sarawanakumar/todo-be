@@ -17,6 +17,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -27,17 +29,17 @@ public class Task {
 
     public Task(){}
 
-    public Task(int id, String description, int priority, int status, Date completionDate, int userId) {
+    public Task(int id, String description, int priority, int status, Date completionDate, User user) {
         this.id = id;
         this.description = description;
         this.priority = priority;
         this.status = status;
         this.completionDate = completionDate;
-        this.userId = userId;
+        this.user = user;
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(name = "description", nullable = false)
@@ -46,12 +48,12 @@ public class Task {
     @Column(name = "priority")
     @JsonSerialize(using = PrioritySerializer.class)
     @JsonDeserialize(using = PriorityDeserializer.class)
-    private int priority;
+    private Integer priority;
 
     @Column(name = "status", nullable = false)
     @JsonSerialize(using = StatusSerializer.class)
     @JsonDeserialize(using = StatusDeserializer.class)
-    private int status;
+    private Integer status;
 
     @Column(name = "scheduled_on", nullable = false)
     @JsonSerialize(using = DateSerializer.class)
@@ -59,6 +61,7 @@ public class Task {
     private Date completionDate;
 
     @JsonIgnore
-    @Column(name = "user_id")
-    private int userId;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

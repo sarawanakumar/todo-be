@@ -27,15 +27,15 @@ public class CustomTaskRepositoryImpl implements CustomTaskRepository {
         CriteriaQuery<Task> query = criteriaBuilder.createQuery(Task.class);
         Root<Task> taskRoot = query.from(Task.class);
 
-        Path<String> userIdPath = taskRoot.get("userId");
+        //Path<String> userIdPath = taskRoot.get("userId");
         Path<String> priorityPath = taskRoot.get("priority");
         Path<String> statusPath = taskRoot.get("status");
 
         List<Predicate> predicates = new ArrayList<>();
 
-        if (userId != null) {
-            predicates.add(criteriaBuilder.equal(userIdPath, userId));
-        }
+//        if (userId != null) {
+//            predicates.add(criteriaBuilder.equal(userIdPath, userId));
+//        }
         if (priority != null) {
             predicates.add(criteriaBuilder.equal(priorityPath, priority));
         }

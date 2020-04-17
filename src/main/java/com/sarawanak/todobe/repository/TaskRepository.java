@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer>, CustomTaskRepository {
-    @Query(value = "SELECT t FROM Task t WHERE t.userId = ?1")
-    List<Task> findByUserId(Integer userId);
+//    @Query(value = "SELECT t FROM Task t WHERE t.userId = ?1")
+//    List<Task> findByUserId(Integer userId);
 }
