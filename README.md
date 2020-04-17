@@ -10,8 +10,8 @@ GET /hello => "hello"
 
 **Create Todo**
 ```POST /todo
-
-{   "description": "Dummy Task",
+    {   
+        "description": "Dummy Task",
         "priority": "High",
         "status": "Pending",
         "completionDate": "17-Apr-2020"
@@ -21,8 +21,8 @@ GET /hello => "hello"
 ---
 **Update Todo**
 ```PUT /todo
-
-{   "description": "Real Task",
+    {
+        "description": "Real Task",
         "priority": "High",
         "status": "Completed",
         "completionDate": "16-Apr-2020"
@@ -31,7 +31,10 @@ GET /hello => "hello"
  ---
  
  **Delete Todo**
- ```DELETE /todo/{id}
+ ```
+ DELETE /todo/{id}
+ 
+ Response 200
  ```
  
  ---
