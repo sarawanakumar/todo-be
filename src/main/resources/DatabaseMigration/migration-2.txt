@@ -1,0 +1,32 @@
+ALTER TABLE todo_user ADD COLUMN enabled SMALLINT NOT NULL DEFAULT 1;
+
+ALTER TABLE todo_user DROP COLUMN name;
+
+ALTER TABLE task DROP CONSTRAINT task_user_id_fkey;
+
+
+
+ALTER TABLE todo_user DROP CONSTRAINT todo_user_pkey;
+
+ALTER TABLE todo_user ADD PRIMARY KEY (username);
+
+
+ALTER TABLE task ADD COLUMN uid VARCHAR(50);
+ALTER TABLE task DROP COLUMN user_id;
+
+ALTER TABLE task ADD FOREIGN KEY (uid) REFERENCES todo_user(username);
+
+
+
+ALTER TABLE todo_user RENAME TO users;
+
+create table authorities(
+username varchar(50) not null,
+authority varchar(50) not null,
+foreign key (username) references users(username));
+
+CREATE UNIQUE INDEX ix_auth_username
+  on authorities (username,authority);
+
+
+ALTER TABLE  users ALTER COLUMN password TYPE VARCHAR(100);
