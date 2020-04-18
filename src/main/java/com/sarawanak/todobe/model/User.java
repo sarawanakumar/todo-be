@@ -11,27 +11,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "todo_user")
+@Table(name = "users")
 @Data
-@JsonIgnoreProperties({"id", "password"})
+@JsonIgnoreProperties({"password"})
 public class User {
     public User(){}
 
-    public User(int id, String username, String password, String name) {
-        this.id = id;
+    public User(String username, String password, Integer enabled) {
         this.username = username;
-        this.name = name;
+        this.enabled = enabled;
         this.password = password;
     }
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
+    @Id
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "enabled", nullable = false)
+    private Integer enabled;
 
     @Column(name = "password", nullable = false)
     private String password;

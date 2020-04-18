@@ -138,7 +138,7 @@ class TaskServiceTest {
 
     private List<Task> getStubTasks() {
         List<Task> tasks = new ArrayList<>();
-        User user = new User(1, "sarka", "passs", "full name");
+        User user = new User("sarka", "passs", 1);
         Task t1 = new Task(2, "User Task 1", 5, 0, new Date(), user);
         Task t2 = new Task(4, "User Task Hello", 10, 1, new Date(), user);
 

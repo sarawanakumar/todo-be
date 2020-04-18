@@ -18,4 +18,9 @@ public class UserController {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    @GetMapping("/signup")
+    public String signup() {
+        return "signed";
+    }
 }

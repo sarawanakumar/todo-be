@@ -35,7 +35,7 @@ class TodoControllerTest {
 
     @Test
     void shouldCreateTodoWithRequestBody() {
-        User user = new User(1, "sarka", "passs", "full name");
+        User user = new User("sarka", "passs", 1);
         Task task = new Task(4, "Desc", 5, 0, new Date(), user);
         when(taskService.createTask(task)).thenReturn(task);
         Task res = todoController.createTask(task);
@@ -46,7 +46,7 @@ class TodoControllerTest {
 
     @Test
     void shouldModifyTodoWithNewObject() {
-        User user = new User(1, "sarka", "passs", "full name");
+        User user = new User("sarka", "passs", 1);
         Task task = new Task(4, "Desc", 5, 0, new Date(), user);
         Integer taskId = 9;
         when(taskService.updateTask(task, taskId)).thenReturn(task);
@@ -60,7 +60,7 @@ class TodoControllerTest {
     @Test
     void shouldDeleteTaskWithId() {
         Integer taskId = 6;
-        User user = new User(1, "sarka", "passs", "full name");
+        User user = new User("sarka", "passs", 1);
         Task task = new Task(4, "Desc", 5, 0, new Date(), user);
 
         when(taskService.getTodoById(taskId.toString())).thenReturn(java.util.Optional.of(task));

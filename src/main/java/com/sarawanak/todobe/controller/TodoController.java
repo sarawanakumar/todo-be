@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,5 +54,10 @@ public class TodoController {
     @DeleteMapping(value = "/todo/{id}")
     public void deleteTask(@PathVariable Integer id) {
         taskService.deleteTodo(id);
+    }
+
+    @GetMapping(value = "/principal")
+    public Principal retrievePrincipal(Principal principal) {
+        return principal;
     }
 }

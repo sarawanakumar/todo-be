@@ -62,6 +62,6 @@ public class Task {
 
     @JsonIgnore
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "uid", referencedColumnName = "username")
     private User user;
 }
