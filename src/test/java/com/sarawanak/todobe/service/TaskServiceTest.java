@@ -6,8 +6,10 @@ import com.sarawanak.todobe.repository.TaskRepository;
 import com.sarawanak.todobe.repository.TaskSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
@@ -94,18 +96,25 @@ class TaskServiceTest {
 
     @Test
     void shouldUpdateTodoItemWithGivenObject() {
-        Task task = getStubTasks().get(0);
-        Optional<Task> oldTask = Optional.of(getStubTasks().get(1));
+        User user = new User("sarka", "passs", 1);
+        Task task = new Task(2, "User Task 1", 5, 0, new Date(), user);
+        Task oldTask = new Task(2, "User Task Hello", 10, 1, new Date(), user);
         Integer taskId = task.getId();
 
-        when(taskRepository.findById(taskId)).thenReturn(oldTask);
-        when(taskRepository.save(task)).thenReturn(task);
+        TaskService taskService = Mockito.spy(service);
 
-        Task res = service.updateTask(task, taskId);
+        when(taskRepository.findById(taskId)).thenReturn(Optional.of(oldTask));
+        when(taskRepository.save(oldTask)).thenReturn(task);
 
+        Task res = taskService.updateTask(task, taskId);
+
+        ArgumentCaptor<Task> taskCaptor = ArgumentCaptor.forClass(Task.class);
+        verify(taskService).updateTask(taskCaptor.capture(), any());
         verify(taskRepository, times(1)).save(task);
         verify(taskRepository, times(1)).findById(taskId);
 
+        assertEquals(taskCaptor.getValue().getDescription(), "User Task 1");
+        assertEquals(taskCaptor.getValue().getPriority(), 5);
         assertEquals(res.getId(), task.getId());
         assertEquals(res.getDescription(), task.getDescription());
     }
