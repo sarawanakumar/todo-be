@@ -3,7 +3,6 @@ package com.sarawanak.todobe.service;
 import com.sarawanak.todobe.helper.PriorityHelper;
 import com.sarawanak.todobe.helper.StatusHelper;
 import com.sarawanak.todobe.model.Task;
-import com.sarawanak.todobe.model.User;
 import com.sarawanak.todobe.repository.TaskRepository;
 import com.sarawanak.todobe.repository.TaskSpecificationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class TaskService {
         return taskRepository.findById(taskId);
     }
 
-    public List<Task> getTodosMatching(Integer userId, String priority, String status) {
+    public List<Task> getTodosMatching(String priority, String status) {
         Integer priorityCode = PriorityHelper.getCodeForPriority(priority);
         Integer statusCode = StatusHelper.getCodeForStatus(status);
         TaskSpecificationBuilder builder = new TaskSpecificationBuilder();
@@ -38,6 +37,7 @@ public class TaskService {
             builder.with("status", statusCode);
 
         Specification<Task> specification = builder.build();
+
         return taskRepository.findAll(specification);
     }
 
@@ -47,14 +47,14 @@ public class TaskService {
 
     public Task updateTask(Task task, Integer id) {
         return taskRepository.findById(id).map(t -> {
-            if (task.getDescription() != null)
-                t.setDescription(task.getDescription());
-            if (task.getPriority() != null)
-                t.setPriority(task.getPriority());
-            if (task.getStatus() != null)
-                t.setStatus(task.getStatus());
-            if (task.getCompletionDate() != null)
-                t.setCompletionDate(task.getCompletionDate());
+            Optional.of(task.getDescription())
+                .ifPresent(desc -> t.setDescription(desc));
+            Optional.of(task.getPriority())
+                .ifPresent(priority -> t.setPriority(priority));
+            Optional.of(task.getStatus())
+                .ifPresent(status -> t.setStatus(status));
+            Optional.of(task.getCompletionDate())
+                .ifPresent(completionDate -> t.setCompletionDate(completionDate));
 
             return taskRepository.save(t);
         }).orElseGet(() -> taskRepository.save(task));
