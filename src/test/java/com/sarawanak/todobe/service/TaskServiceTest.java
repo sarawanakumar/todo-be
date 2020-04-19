@@ -3,6 +3,7 @@ package com.sarawanak.todobe.service;
 import com.sarawanak.todobe.model.Task;
 import com.sarawanak.todobe.model.User;
 import com.sarawanak.todobe.repository.TaskRepository;
+import com.sarawanak.todobe.repository.TaskSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -15,13 +16,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.atMostOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -74,9 +72,10 @@ class TaskServiceTest {
     @Test
     void shouldGetTodosMatchingIdPriorityAndStatus() {
         List<Task> stubTasks = getStubTasks();
-        when(taskRepository.findByCriteria(anyInt(), anyInt(), anyInt())).thenReturn(stubTasks);
+        TaskSpecification specification = any();
+        when(taskRepository.findAll(specification)).thenReturn(stubTasks);
 
-        List<Task> res = service.getTodosMatching(1, "Medium", "Completed");
+        List<Task> res = service.getTodosMatching("Medium", "Completed");
 
         assertEquals(res.size(), stubTasks.size());
     }

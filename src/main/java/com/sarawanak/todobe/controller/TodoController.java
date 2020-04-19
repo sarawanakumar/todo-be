@@ -38,7 +38,7 @@ public class TodoController {
         @RequestParam(required = false) String priority,
         @RequestParam(required = false) String status
     ) {
-        return taskService.getTodosMatching(userId, priority, status);
+        return taskService.getTodosMatching(priority, status);
     }
 
     @PostMapping(value = "/todo")

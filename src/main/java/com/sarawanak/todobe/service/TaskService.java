@@ -5,7 +5,9 @@ import com.sarawanak.todobe.helper.StatusHelper;
 import com.sarawanak.todobe.model.Task;
 import com.sarawanak.todobe.model.User;
 import com.sarawanak.todobe.repository.TaskRepository;
+import com.sarawanak.todobe.repository.TaskSpecificationBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +30,15 @@ public class TaskService {
     public List<Task> getTodosMatching(Integer userId, String priority, String status) {
         Integer priorityCode = PriorityHelper.getCodeForPriority(priority);
         Integer statusCode = StatusHelper.getCodeForStatus(status);
+        TaskSpecificationBuilder builder = new TaskSpecificationBuilder();
 
-        return taskRepository.findByCriteria(userId, priorityCode, statusCode);
+        if (priority != null)
+            builder.with("priority", priorityCode);
+        if (status != null)
+            builder.with("status", statusCode);
+
+        Specification<Task> specification = builder.build();
+        return taskRepository.findAll(specification);
     }
 
     public Task createTask(Task task) {
