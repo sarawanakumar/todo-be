@@ -31,10 +31,10 @@ public class TaskService {
         Integer statusCode = StatusHelper.getCodeForStatus(status);
         TaskSpecificationBuilder builder = new TaskSpecificationBuilder();
 
-        if (priority != null)
-            builder.with("priority", priorityCode);
-        if (status != null)
-            builder.with("status", statusCode);
+        Optional.ofNullable(priority)
+            .ifPresent(pri -> builder.with("priority", priorityCode));
+        Optional.ofNullable(status)
+            .ifPresent(sta -> builder.with("status", statusCode));
 
         Specification<Task> specification = builder.build();
 
