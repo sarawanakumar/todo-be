@@ -47,13 +47,13 @@ public class TaskService {
 
     public Task updateTask(Task task, Integer id) {
         return taskRepository.findById(id).map(t -> {
-            Optional.of(task.getDescription())
+            Optional.ofNullable(task.getDescription())
                 .ifPresent(desc -> t.setDescription(desc));
-            Optional.of(task.getPriority())
+            Optional.ofNullable(task.getPriority())
                 .ifPresent(priority -> t.setPriority(priority));
-            Optional.of(task.getStatus())
+            Optional.ofNullable(task.getStatus())
                 .ifPresent(status -> t.setStatus(status));
-            Optional.of(task.getCompletionDate())
+            Optional.ofNullable(task.getCompletionDate())
                 .ifPresent(completionDate -> t.setCompletionDate(completionDate));
 
             return taskRepository.save(t);
