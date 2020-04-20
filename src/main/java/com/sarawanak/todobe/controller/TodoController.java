@@ -28,17 +28,18 @@ public class TodoController {
     }
 
     @GetMapping("/todo/{id}")
-    public Optional<Task> getTodo(@PathVariable String id) {
-        return taskService.getTodoById(id);
+    public Optional<Task> getTodo(@PathVariable String id, Principal principal) {
+        return taskService.getTodoById(id, principal.getName());
     }
 
     @GetMapping(value = "/todo")
     public List<Task> getTodosFor(
         @RequestParam(name = "user_id", required = false) Integer userId,
         @RequestParam(required = false) String priority,
-        @RequestParam(required = false) String status
+        @RequestParam(required = false) String status,
+        Principal principal
     ) {
-        return taskService.getTodosMatching(priority, status);
+        return taskService.getTodosMatching(priority, status, principal.getName());
     }
 
     @PostMapping(value = "/todo")

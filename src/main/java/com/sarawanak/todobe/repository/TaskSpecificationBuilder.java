@@ -1,12 +1,15 @@
 package com.sarawanak.todobe.repository;
 
+import com.sarawanak.todobe.model.SearchCriteria;
 import com.sarawanak.todobe.model.Task;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class TaskSpecificationBuilder {
     private final List<SearchCriteria> params;
 

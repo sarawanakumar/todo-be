@@ -9,7 +9,6 @@ import com.sarawanak.todobe.serdes.PriorityDeserializer;
 import com.sarawanak.todobe.serdes.PrioritySerializer;
 import com.sarawanak.todobe.serdes.StatusDeserializer;
 import com.sarawanak.todobe.serdes.StatusSerializer;
-import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -27,7 +26,30 @@ import java.util.Date;
 @Data
 public class Task {
 
-    public Task(){}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(name = "description", nullable = false)
+    private String description;
+    @Column(name = "priority")
+    @JsonSerialize(using = PrioritySerializer.class)
+    @JsonDeserialize(using = PriorityDeserializer.class)
+    private Integer priority;
+    @Column(name = "status", nullable = false)
+    @JsonSerialize(using = StatusSerializer.class)
+    @JsonDeserialize(using = StatusDeserializer.class)
+    private Integer status;
+    @Column(name = "scheduled_on", nullable = false)
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializer.class)
+    private Date completionDate;
+    @JsonIgnore
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "uid", referencedColumnName = "username")
+    private User user;
+
+    public Task() {
+    }
 
     public Task(int id, String description, int priority, int status, Date completionDate, User user) {
         this.id = id;
@@ -37,31 +59,4 @@ public class Task {
         this.completionDate = completionDate;
         this.user = user;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "description", nullable = false)
-    private String description;
-
-    @Column(name = "priority")
-    @JsonSerialize(using = PrioritySerializer.class)
-    @JsonDeserialize(using = PriorityDeserializer.class)
-    private Integer priority;
-
-    @Column(name = "status", nullable = false)
-    @JsonSerialize(using = StatusSerializer.class)
-    @JsonDeserialize(using = StatusDeserializer.class)
-    private Integer status;
-
-    @Column(name = "scheduled_on", nullable = false)
-    @JsonSerialize(using = DateSerializer.class)
-    @JsonDeserialize(using = DateDeserializer.class)
-    private Date completionDate;
-
-    @JsonIgnore
-    @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "uid", referencedColumnName = "username")
-    private User user;
 }

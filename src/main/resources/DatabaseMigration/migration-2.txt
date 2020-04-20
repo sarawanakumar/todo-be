@@ -1,10 +1,6 @@
 ALTER TABLE todo_user ADD COLUMN enabled SMALLINT NOT NULL DEFAULT 1;
 
-ALTER TABLE todo_user DROP COLUMN name;
-
 ALTER TABLE task DROP CONSTRAINT task_user_id_fkey;
-
-
 
 ALTER TABLE todo_user DROP CONSTRAINT todo_user_pkey;
 

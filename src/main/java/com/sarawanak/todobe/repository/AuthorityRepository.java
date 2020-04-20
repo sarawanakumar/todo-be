@@ -1,9 +1,9 @@
 package com.sarawanak.todobe.repository;
 
-import com.sarawanak.todobe.model.User;
+import com.sarawanak.todobe.model.Authority;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface AuthorityRepository extends JpaRepository<Authority, String> {
 }

@@ -63,7 +63,7 @@ class TodoControllerTest {
         User user = new User("sarka", "passs", 1);
         Task task = new Task(4, "Desc", 5, 0, new Date(), user);
 
-        when(taskService.getTodoById(taskId.toString())).thenReturn(java.util.Optional.of(task));
+        when(taskService.getTodoById(taskId.toString(), "sarka")).thenReturn(java.util.Optional.of(task));
 
         todoController.deleteTask(taskId);
 

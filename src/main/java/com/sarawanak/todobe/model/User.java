@@ -5,15 +5,13 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
 @Data
-@JsonIgnoreProperties({"password"})
+@JsonIgnoreProperties({"enabled"})
 public class User {
     public User(){}
 
@@ -32,4 +30,7 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 }

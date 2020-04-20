@@ -1,4 +1,4 @@
-package com.sarawanak.todobe.repository;
+package com.sarawanak.todobe.model;
 
 import lombok.Data;
 

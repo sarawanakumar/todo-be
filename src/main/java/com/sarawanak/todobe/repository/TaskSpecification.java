@@ -1,5 +1,6 @@
 package com.sarawanak.todobe.repository;
 
+import com.sarawanak.todobe.model.SearchCriteria;
 import com.sarawanak.todobe.model.Task;
 import org.springframework.data.jpa.domain.Specification;
 
