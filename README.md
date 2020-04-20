@@ -4,6 +4,22 @@
 
 ## Endpoints
 
+### Create User Account
+
+**Sign up**
+```
+POST /signup
+_Body:_
+{
+	"name": "My Super User",
+	"username": "mysuser",
+	"password": "password"
+}
+```
+
+***All the below services need to be authenticated with above created user credentials***
+***Use Basic Authentication and provide username & password in Postman***
+
 
 **Test Service**
 ```
