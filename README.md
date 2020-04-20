@@ -10,7 +10,6 @@
 **Sign up**
 ```
 POST /signup
-_Body:_
 {
 	"name": "My Super User",
 	"username": "mysuser",
@@ -64,4 +63,4 @@ PUT /todo
  
 `GET /todo/{id} => Optional<Todo>`
 
-`GET /todo?user_id={id}&priority={high|medium|low}&status={pending|completed} => List<Todo>`
+`GET /todo?priority={high|medium|low}&status={pending|completed} => List<Todo>`
