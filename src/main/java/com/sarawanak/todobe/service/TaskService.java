@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +32,7 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    @Transactional
     public Optional<Task> getTodoById(String Id, String username) {
         Integer taskId = Integer.parseInt(Id);
         List<Task> t = taskRepository.findByUserUsername(username)
@@ -42,6 +45,7 @@ public class TaskService {
         return Optional.ofNullable(t.isEmpty() ? null : t.get(0));
     }
 
+    @Transactional
     public List<Task> getTodosMatching(String priority, String status, String username) {
         Integer priorityCode = PriorityHelper.getCodeForPriority(priority);
         Integer statusCode = StatusHelper.getCodeForStatus(status);
@@ -56,10 +60,17 @@ public class TaskService {
         return taskRepository.findAll(specification);
     }
 
-    public Task createTask(Task task) {
-        return taskRepository.save(task);
+    @Transactional
+    public Optional<Task> createTask(Task task, Principal principal) {
+        Optional<User> currentUser = userRepository.findById(principal.getName());
+
+        return currentUser.map(user -> {
+            task.setUser(user);
+            return taskRepository.save(task);
+        });
     }
 
+    @Transactional
     public Task updateTask(Task task, Integer id) {
         return taskRepository.findById(id).map(t -> {
             Optional.ofNullable(task.getDescription()).ifPresent(desc -> t.setDescription(desc));

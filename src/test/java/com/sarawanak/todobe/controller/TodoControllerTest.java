@@ -7,11 +7,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.security.Principal;
 import java.util.Date;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,13 +39,15 @@ class TodoControllerTest {
 
     @Test
     void shouldCreateTodoWithRequestBody() {
+        Principal principal = Mockito.mock(Principal.class);
         User user = new User("sarka", "passs", 1);
         Task task = new Task(4, "Desc", 5, 0, new Date(), user);
-        when(taskService.createTask(task)).thenReturn(task);
-        Task res = todoController.createTask(task);
+        when(taskService.createTask(task, principal)).thenReturn(Optional.of(task));
 
-        verify(taskService, times(1)).createTask(task);
-        assertEquals(task.getId(), res.getId());
+        Optional<Task> res = todoController.createTask(task, principal);
+
+        verify(taskService, times(1)).createTask(task, principal);
+        assertEquals(task.getId(), res.get().getId());
     }
 
     @Test

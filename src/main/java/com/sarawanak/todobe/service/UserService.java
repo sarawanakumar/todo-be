@@ -16,10 +16,6 @@ public class UserService {
     @Autowired
     AuthorityRepository authorityRepository;
 
-    public User getCurrentUser() {
-        return userRepository.findById("saravaks").get();
-    }
-
     public User createUser(User user) {
         user.setEnabled(1);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));

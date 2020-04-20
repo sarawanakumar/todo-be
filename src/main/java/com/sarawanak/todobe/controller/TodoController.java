@@ -43,8 +43,8 @@ public class TodoController {
     }
 
     @PostMapping(value = "/todo")
-    public Task createTask(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public Optional<Task> createTask(@RequestBody Task task, Principal principal) {
+        return taskService.createTask(task, principal);
     }
 
     @PutMapping(value = "/todo/{id}")

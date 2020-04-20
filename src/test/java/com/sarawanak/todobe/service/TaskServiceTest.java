@@ -14,15 +14,18 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -94,13 +97,20 @@ class TaskServiceTest {
     @Test
     void shouldCreateTodoItemWithGivenObject() {
         Task task = getStubTasks().get(0);
-        when(taskRepository.save(task)).thenReturn(task);
+        User user = new User("saravaks", "passs", 1);
+        Principal principal = mock(Principal.class);
 
-        Task res = service.createTask(task);
+        when(taskRepository.save(task)).thenReturn(task);
+        when(userRepository.findById(anyString())).thenReturn(Optional.of(user));
+        when(principal.getName()).thenReturn("saravaks");
+
+        Optional<Task> res = service.createTask(task, principal);
 
         verify(taskRepository, times(1)).save(task);
 
-        assertEquals(task.getId(), res.getId());
+        assertEquals(task.getId(), res.get().getId());
+        assertNotNull(task.getUser());
+        assertEquals(task.getUser().getUsername(), "saravaks");
     }
 
     @Test
