@@ -17,8 +17,8 @@ _Body:_
 }
 ```
 
-***All the below services need to be authenticated with above created user credentials***
-***Use Basic Authentication and provide username & password in Postman***
+**_All the below services need to be authenticated with above created user credentials._**
+**_Use Basic Authentication and provide username & password in Postman_**
 
 
 **Test Service**
