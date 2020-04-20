@@ -3,6 +3,7 @@
 
 
 ## Endpoints
+---
 
 ### Create User Account
 
@@ -16,10 +17,11 @@ _Body:_
 	"password": "password"
 }
 ```
-
+---
 **_All the below services need to be authenticated with above created user credentials._**
 **_Use Basic Authentication and provide username & password in Postman_**
 
+### CRUD Todo
 
 **Test Service**
 ```
