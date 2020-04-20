@@ -41,7 +41,7 @@ POST /todo
 ---
 **Update Todo**
 ```
-PUT /todo
+PUT /todo/{id}
     {
         "description": "Real Task",
         "priority": "High",
