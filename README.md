@@ -22,12 +22,12 @@ POST /signup
 
 ### CRUD Todo
 
-**Test Service**
+***Test Service***
 ```
 GET /hello => "hello"
 ```
 
-**Create Todo**
+***Create Todo***
 ```
 POST /todo
     {   
@@ -39,7 +39,7 @@ POST /todo
  ```
 
 ---
-**Update Todo**
+***Update Todo***
 ```
 PUT /todo/{id}
     {
@@ -51,7 +51,7 @@ PUT /todo/{id}
  ```
  ---
  
- **Delete Todo**
+ ***Delete Todo***
  ```
  DELETE /todo/{id}
 
@@ -59,7 +59,7 @@ PUT /todo/{id}
  
  ---
  
- **Query Todo**
+ ***Query Todo***
  
 ```
 GET /todo/{id} => Optional<Todo>
@@ -74,4 +74,12 @@ date=[DDMMYYYY] &
 orderby_key=[priority|status|completionDate]
 
 => List<Todo>
+```
+---
+
+### Users API(only for Admin)**
+
+***List all Users***
+```
+GET /users => List<User>
 ```
