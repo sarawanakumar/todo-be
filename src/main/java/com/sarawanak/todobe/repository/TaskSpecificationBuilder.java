@@ -25,9 +25,7 @@ public class TaskSpecificationBuilder {
     public Specification<Task> build() {
         if (params.size() == 0) return null;
 
-        List<Specification> specs = params.stream()
-            .map(TaskSpecification::new)
-            .collect(Collectors.toList());
+        List<Specification> specs = params.stream().map(TaskSpecification::new).collect(Collectors.toList());
         Specification result = specs.get(0);
 
         for (int i = 1; i < params.size(); i++) {
@@ -35,5 +33,9 @@ public class TaskSpecificationBuilder {
         }
 
         return result;
+    }
+
+    public void resetCriteria() {
+        params.clear();
     }
 }

@@ -3,6 +3,7 @@ package com.sarawanak.todobe.controller;
 import com.sarawanak.todobe.model.Task;
 import com.sarawanak.todobe.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,9 +38,11 @@ public class TodoController {
         @RequestParam(name = "user_id", required = false) Integer userId,
         @RequestParam(required = false) String priority,
         @RequestParam(required = false) String status,
+        @RequestParam(required = false) String date,
+        @RequestParam(name = "orderby_key",required = false) String orderByKey,
         Principal principal
     ) {
-        return taskService.getTodosMatching(priority, status, principal.getName());
+        return taskService.getTodosMatching(priority, status, date, orderByKey, principal.getName());
     }
 
     @PostMapping(value = "/todo")
@@ -58,7 +61,7 @@ public class TodoController {
     }
 
     @GetMapping(value = "/principal")
-    public Principal retrievePrincipal(Principal principal) {
+    public Principal retrievePrincipal(Principal principal, Authentication authentication) {
         return principal;
     }
 }

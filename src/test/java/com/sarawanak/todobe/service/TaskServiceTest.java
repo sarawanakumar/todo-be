@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Sort;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -86,12 +87,40 @@ class TaskServiceTest {
         List<Task> stubTasks = getStubTasks();
         User user = new User("saravaks", null, 1);
         TaskSpecification specification = any();
-        when(taskRepository.findAll(specification)).thenReturn(stubTasks);
+        Sort sort = any();
+        when(taskRepository.findAll(specification, sort)).thenReturn(stubTasks);
         when(userRepository.findById(anyString())).thenReturn(Optional.of(user));
 
-        List<Task> res = service.getTodosMatching("Medium", "Completed", "saravaks");
-
+        List<Task> res = service.getTodosMatching("Medium", "Completed", "17042020", "priority", "saravaks");
         assertEquals(res.size(), stubTasks.size());
+    }
+
+    @Test
+    void shouldInvokeFindAllWithSortVariantWhenSortKeyIsPresent() {
+        List<Task> stubTasks = getStubTasks();
+        User user = new User("saravaks", null, 1);
+        TaskSpecification specification = any();
+        Sort sort = any();
+        when(taskRepository.findAll(specification, sort)).thenReturn(stubTasks);
+        when(userRepository.findById(anyString())).thenReturn(Optional.of(user));
+
+        List<Task> res = service.getTodosMatching("Medium", "Completed", "17042020", "priority", "saravaks");
+        verify(taskRepository, times(1)).findAll(specification, Sort.by(Sort.Direction.ASC, "priority"));
+        verify(taskRepository, times(0)).findAll(specification);
+    }
+
+    @Test
+    void shouldInvokeFindAllWhenSortKeyIsNull() {
+        List<Task> stubTasks = getStubTasks();
+        User user = new User("saravaks", null, 1);
+        TaskSpecification specification = any();
+        Sort sort = any();
+        when(taskRepository.findAll(specification, sort)).thenReturn(stubTasks);
+        when(userRepository.findById(anyString())).thenReturn(Optional.of(user));
+
+        List<Task> res = service.getTodosMatching("Medium", "Completed", "17042020", null, "saravaks");
+        verify(taskRepository, times(0)).findAll(specification, sort);
+        verify(taskRepository, times(1)).findAll(specification);
     }
 
     @Test

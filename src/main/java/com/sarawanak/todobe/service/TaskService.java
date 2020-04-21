@@ -8,11 +8,15 @@ import com.sarawanak.todobe.repository.TaskRepository;
 import com.sarawanak.todobe.repository.TaskSpecificationBuilder;
 import com.sarawanak.todobe.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,30 +38,51 @@ public class TaskService {
 
     @Transactional
     public Optional<Task> getTodoById(String Id, String username) {
-        Integer taskId = Integer.parseInt(Id);
-        List<Task> t = taskRepository.findByUserUsername(username)
-            .stream()
-            .filter(task -> {
-                return task.getId() == taskId;
-            })
-            .collect(Collectors.toList());
+        try {
+            Integer taskId = Integer.parseInt(Id);
+            List<Task> t = taskRepository.findByUserUsername(username)
+                .stream()
+                .filter(task -> {
+                    return task.getId() == taskId;
+                })
+                .collect(Collectors.toList());
 
-        return Optional.ofNullable(t.isEmpty() ? null : t.get(0));
+            return Optional.ofNullable(t.isEmpty() ? null : t.get(0));
+        } catch (NumberFormatException ne) {
+            ne.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     @Transactional
-    public List<Task> getTodosMatching(String priority, String status, String username) {
+    public List<Task> getTodosMatching(String priority, String status, String dateString, String orderByKey,
+                                       String username) {
         Integer priorityCode = PriorityHelper.getCodeForPriority(priority);
         Integer statusCode = StatusHelper.getCodeForStatus(status);
 
-        Optional<User> currentUser =  userRepository.findById(username);
-        Optional.ofNullable(priority).ifPresent(pri -> taskSpecificationBuilder.with("priority", priorityCode));
-        Optional.ofNullable(status).ifPresent(sta -> taskSpecificationBuilder.with("status", statusCode));
-        currentUser.ifPresent(user -> taskSpecificationBuilder.with("user", user));
+        taskSpecificationBuilder.resetCriteria();
+        Optional.ofNullable(priority)
+            .ifPresent(pri -> taskSpecificationBuilder.with("priority", priorityCode));
+        Optional.ofNullable(status)
+            .ifPresent(sta -> taskSpecificationBuilder.with("status", statusCode));
+        Optional.ofNullable(dateString).ifPresent(dString -> {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+            try {
+                Date completionDate = dateFormat.parse(dateString);
+                taskSpecificationBuilder.with("completionDate", completionDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        });
+        userRepository.findById(username)
+            .ifPresent(user -> taskSpecificationBuilder.with("user", user));
+        Optional<Sort> sort = Optional.ofNullable(orderByKey)
+            .map(key -> Sort.by(Sort.Direction.ASC, key));
 
         Specification<Task> specification = taskSpecificationBuilder.build();
 
-        return taskRepository.findAll(specification);
+        return sort.map(el -> taskRepository.findAll(specification, el))
+            .orElseGet(() -> taskRepository.findAll(specification));
     }
 
     @Transactional
