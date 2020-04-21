@@ -63,4 +63,4 @@ PUT /todo/{id}
  
 `GET /todo/{id} => Optional<Todo>`
 
-`GET /todo?priority={high|medium|low}&status={pending|completed} => List<Todo>`
+`GET /todo?priority=[high|medium|low]&status=[pending|completed]&date=[DDMMYYYY]&orderby_key=[priority|status|completionDate] => List<Todo>`
