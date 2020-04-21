@@ -61,6 +61,17 @@ PUT /todo/{id}
  
  **Query Todo**
  
-`GET /todo/{id} => Optional<Todo>`
+```
+GET /todo/{id} => Optional<Todo>
+```
 
-`GET /todo?priority=[high|medium|low]&status=[pending|completed]&date=[DDMMYYYY]&orderby_key=[priority|status|completionDate] => List<Todo>`
+```
+GET /todo
+Query Params:
+priority=[high|medium|low] &
+status=[pending|completed] &
+date=[DDMMYYYY] &
+orderby_key=[priority|status|completionDate]
+
+=> List<Todo>
+```
